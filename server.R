@@ -1,7 +1,6 @@
 # Load libraries
 library(shiny)
 library(tidyverse)
-library(ggthemes)
 
 # Read in data
 adult <- read_csv("adult.csv")
@@ -9,11 +8,12 @@ adult <- read_csv("adult.csv")
 # Define server logic
 shinyServer(function(input, output) {
   
+  # Filters based on the country chosed
   df_country <- reactive({
     adult %>% filter(Native_Country == input$country)
   })
   
-  # TASK 5: Create logic to plot histogram or boxplot
+  # TASK 5: Create logic to plot histogram or boxplot.    For the continuos variables: Age and Hours worked by week
   output$p1 <- renderPlot({
     if (input$graph_type == "Histogram") {
       # Histogram
@@ -33,7 +33,7 @@ shinyServer(function(input, output) {
     
   })
   
-  # TASK 6: Create logic to plot faceted bar chart or stacked bar chart
+  # TASK 6: Create logic to plot faceted bar chart or stacked bar chart. For the categorical variables: Workclass, Education and Sex
   output$p2 <- renderPlot({
     # Bar chart
     p <- ggplot(df_country(), aes_string(x = input$categorical_variable)) + 
